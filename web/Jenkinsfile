@@ -41,7 +41,7 @@ pipeline {
                 script{
 
                     cmd = """
-                        curl -s -X GET -H 'accept: */*' -w '{http_code}' \
+                        curl -s -X GET -H 'accept: */*' -w '%{http_code}' \
                             'mundose.paivae.com:90/ping' 
                     """
 
