@@ -6,11 +6,12 @@ pipeline {
                 sh 'echo Hello Jenkins!'
             }
         }
+        stage('Build Docker') {
+            steps {
+                sh 'docker build -t node-api .'
+            }
+        }
     }
-    stage('Build Docker') {
-      steps {
-        sh 'docker build -t node-api .'
-      }
-    }
+
 }
 
