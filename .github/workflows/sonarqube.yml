@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'webapp/**'
 jobs:
   build:
     name: Build and analyze
