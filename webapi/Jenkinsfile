@@ -6,11 +6,21 @@ pipeline {
                 sh 'echo Hello Jenkins!'
             }
         }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Sonarqube') {
+                    bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=MundosE-Webapp -Dsonar.projectName='MundosE Webapp' -Dsonar.sourceEncoding=UTF-8'''
+                    echo 'SonarQube Analysis Finalizado'
+                }
+            }
+        }
+
         stage('Build Docker') {
             steps {
                 dir(path: 'webapi/'){
-                    sh 'pwd'
                     sh 'docker build -t node-api .'
+                    echo 'Docker Build Finalizado'
                 }
             }
         }
