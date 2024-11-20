@@ -45,6 +45,7 @@ services:
     networks:
       - mundosE-network
 
+volumes:
   mundosE-sonarqube:
     external: true
   mundosE-sonarqube-db:
