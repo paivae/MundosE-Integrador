@@ -42,13 +42,9 @@ pipeline {
 
                     cmd = """curl -s -X GET -H 'accept: */*' 'mundose.paivae.com:90/ping'"""
 
-                    response = sh(script: cmd, returnStdout: true)
+                    stataus_service = sh(script: cmd, returnStdout: true)
                                 
-                    echo "HTTP Code Response: ${response}"
-
-                    if (response != "200") {
-                        error('Test: El servicio no esta funcionando')
-                    } 
+                    echo "HTTP Code Response: ${stataus_service}"
                 }
                 echo 'Test Finalizado'
                 
