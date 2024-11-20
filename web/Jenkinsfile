@@ -63,7 +63,7 @@ pipeline {
         stage('Deploy Image') {
             steps {
                 sshagent(credentials: ['webapp-prod-serv']) {
-                    sh 'docker run -d --name ${containerName} ${imagename}:latest'
+                    sh 'ssh -o StrictHostKeyChecking=no -l root web.mundose.paivae.com uname -a'
                 }
             }
         }
