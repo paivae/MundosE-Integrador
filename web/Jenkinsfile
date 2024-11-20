@@ -40,7 +40,9 @@ pipeline {
                 sh 'docker run -d -p 90:80 --name ${containerName} ${imagename}:latest'
                 script{
 
-                    response = sh "curl -s -X GET -H 'accept: */*' 'mundose.paivae.com:90/ping'"
+                    cmd = "curl -s -X GET -H 'accept: */*' mundose.paivae.com:90/ping"
+
+                    response = sh(script: cmd, returnStdout: true)
                                 
                     echo "HTTP Code Response: ${response}"
 
