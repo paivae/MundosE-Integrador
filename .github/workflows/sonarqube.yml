@@ -1,9 +1,11 @@
-name: Build
+name: Build Sonarqube
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'webapp/**'
 jobs:
   build:
     name: Build and analyze
