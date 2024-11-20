@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Build Docker') {
             steps {
-                sh 'docker build -t node-api .'
+                sh 'docker build -t node-api ./webapi/Dockerfile'
             }
         }
     }
