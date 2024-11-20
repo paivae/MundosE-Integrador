@@ -16,16 +16,7 @@ services:
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     networks:
       - mundosE-network
-
-  webserver_apache:
-    image: httpd:2.4
-    ports:
-      - "80:80"
-    container_name: mundosE-webserver-apache
-    restart: always
-    networks:
-      - mundosE-network
-
+      
 networks:
   mundosE-network:
     driver: bridge
