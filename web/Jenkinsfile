@@ -40,17 +40,14 @@ pipeline {
                 sh 'docker run -d -p 90:80 --name ${containerName} ${imagename}:latest'
                 script{
 
-                    cmd = """
-                        curl -s -X GET -H 'accept: */*' -w '%{http_code}' \
-                            'mundose.paivae.com:90/ping' 
-                    """
+                    cmd = "curl -s -X GET -H 'accept: */*' 'mundose.paivae.com:90/ping' "
 
-                    status_code = sh(script: cmd, returnStdout: true).trim()
+                    response = sh(script: cmd, returnStdout: true).trim()
                                 
-                    echo "HTTP Code Response: ${status_code}"
+                    echo "HTTP Code Response: ${response}"
 
-                    if (status_code != "200") {
-                        error('El servicio no esta funcionando')
+                    if (response != "200") {
+                        error('Test: El servicio no esta funcionando')
                     } 
                 }
                 echo 'Test Finalizado'

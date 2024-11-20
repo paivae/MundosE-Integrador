@@ -1,16 +1,15 @@
 const express = require('express')
 const app = express()
-const port = 80
-
-app.get('/ping', (req, res) => {
-  res.send('pong')
-})
+const port = 8080
 
 
 app.get('/', (req, res) => {
   res.send('Funcionaaa!!')
 })
 
+app.get('/ping', (req, res) => {
+  res.send('pong')
+})
 
 
 app.listen(port, () => {
