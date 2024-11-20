@@ -8,6 +8,7 @@ pipeline {
         }
         stage('Build Docker') {
             steps {
+                dir('webapi/')
                 sh 'pwd'
                 sh 'docker build -t node-api .'
             }
