@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build Docker') {
             steps {
-                dir(path: 'webapi/'){
+                dir(path: 'web/'){
                     sh 'docker build -t node-api .'
                     echo 'Docker Build Finalizado'
                 }
