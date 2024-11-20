@@ -1,0 +1,90 @@
+services:
+  sonarqube_db:
+    image: postgres:13
+    container_name: mundosE-sonarqube-db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - mundosE-sonarqube-db:/var/lib/postgresql
+    networks:
+      - mundosE-network
+    
+  sonarqube:
+    image: sonarqube
+    container_name: mundosE-sonarqube
+    ports:
+      - "9000:9000"
+    depends_on:
+      - sonarqube_db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonarqube_db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - mundosE-sonarqube:/opt/sonarqube
+    networks:
+      - mundosE-network
+
+  jenkins:
+    build: jenkins
+    container_name: mundosE-jenkins
+    restart: always
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+    volumes:
+      - mundosE-jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - mundosE-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    container_name: mundosE-prometheus
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - mundosE-prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - mundosE-network
+  
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    container_name: mundosE-grafana
+    restart: always
+    depends_on:
+      - prometheus
+    networks:
+      - mundosE-network
+
+  webserver_apache:
+    image: httpd:2.4
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - mundosE-network
+
+
+volumes:
+  mundosE-nexus-data:
+  mundosE-jenkins-data:
+  mundosE-sonarqube:
+  mundosE-sonarqube-db:
+  mundosE-prometheus:
+
+networks:
+  mundosE-network:
+    driver: bridge

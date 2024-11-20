@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: "mundose-monitor"
+
+scrape_configs:
+  - job_name: 'Servidor Web - Apache'
+    static_configs:
+      - targets: ['webserver_apache:80']
