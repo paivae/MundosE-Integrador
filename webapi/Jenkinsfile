@@ -8,6 +8,7 @@ pipeline {
         }
         stage('Build Docker') {
             steps {
+                sh 'pwd'
                 sh 'docker build -t node-api .'
             }
         }
