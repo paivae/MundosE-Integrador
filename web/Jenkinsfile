@@ -37,7 +37,7 @@ pipeline {
 
         stage('Test Docker') {
             steps {
-                sh 'docker run -d -p 80:90 --name ${containerName} ${imagename}:latest'
+                sh 'docker run -d -p 90:80 --name ${containerName} ${imagename}:latest'
                 script{
 
                     cmd = """
