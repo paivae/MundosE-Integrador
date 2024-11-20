@@ -7,8 +7,7 @@ pipeline {
     }
     agent any
     stages {
-
-
+        
         stage('Deploy Image') {
             steps {
                 sshagent (credentials: ['webapp-prod']) {
