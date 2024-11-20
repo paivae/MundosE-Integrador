@@ -3,7 +3,7 @@ name: Build Sonarqube
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'webapp/**'
 jobs:
