@@ -6,11 +6,13 @@ pipeline {
                 sh 'echo Hello Jenkins!'
             }
         }
-        
+
         stage('SonarQube Analysis') {
-            def scannerHome = tool 'Sonarqube';
-            withSonarQubeEnv() {
-                sh "${scannerHome}/bin/sonar-scanner"
+            steps {
+                def scannerHome = tool 'Sonarqube';
+                withSonarQubeEnv() {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
 
