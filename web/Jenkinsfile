@@ -7,13 +7,65 @@ pipeline {
     }
     agent any
     stages {
+        stage('hello') {
+            steps {
+                sh 'echo Hello Jenkins!'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Sonarqube') {
+                    script {
+                        scannerHome = tool 'Sonarqube';
+                    }
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage('Build Docker') {
+            steps {
+                dir(path: 'web/'){
+                    sh 'docker build -t ${imagename} .'
+                    echo 'Docker Build Finalizado'
+                }
+            }
+        }
+
+        stage('Test Docker image') {
+            steps {
+                sh 'docker run -d --name ${containerName} ${imagename}:latest'
+                echo 'Test Finalizado'
+            }
+        }
+
+        stage('Stop Docker image') {
+            steps {
+                sh "docker stop ${containerName} || true"
+                sh "docker rm ${containerName} || true"
+                echo 'Imagen borrada'
+            }
+        }
+
+        stage('Upload to Docker hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+ 
+                        sh "docker push ${imagename}:latest"
+                    }
+                }
+            }
+        }
 
         stage('Deploy Image') {
             steps {
                 sshagent(credentials: ['webapp-prod-serv']) {
-                    sh '''
-                        docker run hello-world
-                    '''
+                    sh "docker stop ${containerName} || true"
+                    sh "docker rm ${containerName} || true"
+                    sh 'docker run -d --name ${containerName} ${imagename}:latest'
                 }
             }
         }
