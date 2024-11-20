@@ -30,7 +30,6 @@ pipeline {
                     script {
                         dockerImage = docker.build "${imagename}:latest"
                     }
-                    # sh 'docker build -t paivae/mundose-web .'
                     echo 'Docker Build Finalizado'
                 }
             }
