@@ -11,8 +11,8 @@ pipeline {
 
         stage('Deploy Image') {
             steps {
-                sshagent(credentials: ['webapp-prod-serv']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l root web.mundose.paivae.com uname -a'
+                sshagent(credentials: ['webapp-prod-server']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -l jenkinsadmin web.mundose.paivae.com uname -a'
                 }
             }
         }
