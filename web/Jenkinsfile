@@ -37,8 +37,24 @@ pipeline {
 
         stage('Test Docker') {
             steps {
-                sh 'docker run -d --name ${containerName} ${imagename}:latest'
+                sh 'docker run -d -p 80:90 --name ${containerName} ${imagename}:latest'
+                script{
+
+                    cmd = """
+                        curl -s -X GET -H 'accept: */*' -w '{http_code}' \
+                            'mundose.paivae.com:90/ping' 
+                    """
+
+                    status_code = sh(script: cmd, returnStdout: true).trim()
+                                
+                    echo "HTTP Code Response: ${status_code}"
+
+                    if (status_code != "200") {
+                        error('El servicio no esta funcionando')
+                    } 
+                }
                 echo 'Test Finalizado'
+                
             }
         }
 
