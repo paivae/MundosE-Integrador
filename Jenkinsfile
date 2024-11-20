@@ -9,8 +9,7 @@ pipeline {
         stage('Build Docker') {
             steps {
                 sh 'cd webapi'
-                sh 'echo pwd'
-                sh 'echo pwd'
+                sh '$(pwd)'
                 sh 'docker build -t node-api .'
             }
         }
