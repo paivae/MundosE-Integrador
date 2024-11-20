@@ -47,8 +47,7 @@ services:
     container_name: mundosE-prometheus
     restart: always
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - mundosE-prometheus:/prometheus
+      - ./prometheus/:/etc/prometheus/
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -73,6 +72,7 @@ services:
     image: httpd:2.4
     ports:
       - "80:80"
+    container_name: mundosE-webserver-apache
     restart: always
     networks:
       - mundosE-network
@@ -83,7 +83,6 @@ volumes:
   mundosE-jenkins-data:
   mundosE-sonarqube:
   mundosE-sonarqube-db:
-  mundosE-prometheus:
 
 networks:
   mundosE-network:
