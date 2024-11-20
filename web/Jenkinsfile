@@ -3,7 +3,7 @@ pipeline {
         imagename = "paivae/mundose-web"
         dockerImage = ''
         containerName = 'mundose-webapp-test'
-        dockerHubCredentials = 'admin'
+        dockerHubCredentials = 'DockerHubs'
     }
     agent any
     stages {
