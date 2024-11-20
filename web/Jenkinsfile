@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarQube Code') {
             steps {
                 withSonarQubeEnv('Sonarqube') {
                     script {
@@ -35,14 +35,14 @@ pipeline {
             }
         }
 
-        stage('Test Docker image') {
+        stage('Test Docker') {
             steps {
                 sh 'docker run -d --name ${containerName} ${imagename}:latest'
                 echo 'Test Finalizado'
             }
         }
 
-        stage('Stop Docker image') {
+        stage('Stop Image') {
             steps {
                 sh "docker stop ${containerName} || true"
                 sh "docker rm ${containerName} || true"
@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        stage('Upload to Docker hub') {
+        stage('Upload Hub') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
@@ -62,7 +62,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Docker image Prod') {
+        stage('Deploy Prod') {
             steps {
                 sh "docker stop ${containerNameProd} || true"
                 sh "docker rm ${containerNameProd} || true"
