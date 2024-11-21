@@ -4,7 +4,7 @@ const port = 80
 
 
 app.get('/', (req, res) => {
-  res.send('Funcionaaa!!')
+  res.send('Funcionaaa en vivo!!')
 })
 
 app.get('/ping', (req, res) => {
